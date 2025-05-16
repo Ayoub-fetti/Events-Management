@@ -5,7 +5,7 @@ const router = express.Router()
 
 // get all users
 
-router.get('/', async (req, res) => {
+router.get('/users', async (req, res) => {
     try {
         const users = await User.find()
         if (!users) return res.status(404).json({error: "Users not found"})
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 
 // get user by ID 
 
-router.all.get("/:id", async (req,res) => {
+router.get("/users/:id", async (req,res) => {
     try {
         const user = await User.findById(req.params.id)
         if (!user) return res.status(404).json({error: "User not found"})
@@ -29,7 +29,7 @@ router.all.get("/:id", async (req,res) => {
 
 // create user 
 
-router.post('/', async (req, res) => {
+router.post('/users', async (req, res) => {
     try {
         const {username,email, password, role} = req.body 
         const user = new User({username,email,password,role})
@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
 
 // update user 
 
-router.put('/:id', async (req,res) => {
+router.put('/users/:id', async (req,res) => {
     try {
         const user = await User.findByIdAndUpdate(req.params.id, req.body, {new: true})
         if (!user) return res.status(401).json({error: "User not found"})
@@ -53,7 +53,7 @@ router.put('/:id', async (req,res) => {
 
 // delete user 
 
-router.delete('/:id', async (req,res) => {
+router.delete('/users/:id', async (req,res) => {
     try {
         const user = User.findByIdAndDelete(req.params.id)
         if (!user) return res.status(401).json({error: "User not found"})
