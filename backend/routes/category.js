@@ -2,11 +2,11 @@ import express from "express";
 import Category from "../models/Category.js";
 import router from "./user.js";
 
-const router = express.Router()
+const router4 = express.Router()
 
 // get all categories
 
-router.get('/categories', async (req,res) => {
+router4.get('/categories', async (req,res) => {
     try {
 
         const categories = await Category.find()
@@ -19,7 +19,7 @@ router.get('/categories', async (req,res) => {
 
 // get categories by id 
 
-router.get('/categories/:id', async (req,res) => {
+router4.get('/categories/:id', async (req,res) => {
     try {
 
         const category = await Category.findById(req.params.id)
@@ -33,11 +33,12 @@ router.get('/categories/:id', async (req,res) => {
 
 // create category
 
-router.post('/categories', async (req, res) => {
+router4.post('/categories', async (req, res) => {
     try {
         const {name, description} = req.body 
         const category = new Category({name,description})
         await category.save()
+        res.status(201).json(category)
     } catch (err) {
         res.status(400).json({error: err.message})
     }
@@ -45,7 +46,7 @@ router.post('/categories', async (req, res) => {
 
 // update category
 
-router.put('/categories/:id', async (req, res) => {
+router4.put('/categories/:id', async (req, res) => {
     try { 
         const category =  await Category.findByIdAndUpdate(req.params.id , req.body, {new:true})
         if (!category) return res.status(401).json({error: "Category not found"})
@@ -57,9 +58,9 @@ router.put('/categories/:id', async (req, res) => {
 
 // delete category
 
-router.delete('/categories/:id', async (req, res) => {
+router4.delete('/categories/:id', async (req, res) => {
     try { 
-        const category =  await Category.findBy(req.params.id)
+        const category =  await Category.findByIdAndDelete(req.params.id)
         if (!category) return res.status(401).json({error: "Category not found"})
         res.json({message: "Category Deleted Succesfully"})
     } catch (err) {
@@ -67,4 +68,4 @@ router.delete('/categories/:id', async (req, res) => {
     }
 })
 
-export default  router
+export default  router4

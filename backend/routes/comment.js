@@ -1,11 +1,11 @@
 import express from "express";
 import Comment from "../models/Comment.js"
 
-const router = express.Router()
+const router3 = express.Router()
 
 // get all comments
 
-router.get('/comments', async (req,res) => {
+router3.get('/comments', async (req,res) => {
 try {
     const comments = await Comment.find()
     if (!comments) return res.status(401).json({error: "Comment nots found"})
@@ -18,11 +18,12 @@ try {
 
 // add comment
 
-router.post('/comments', async (req,res) => {
+router3.post('/comments', async (req,res) => {
     try {
         const {content,user,event} = req.body
         const comment = new Comment({content,user,event})
         await comment.save()
+        res.status(201).json(comment)
 
     } catch (err) {
         res.status(500).json({error: err.message})
@@ -30,14 +31,15 @@ router.post('/comments', async (req,res) => {
 })
 
 // delete comment
-router.delete('/comments/:id', async (req,res) => {
+router3.delete('/comments/:id', async (req,res) => {
     try {
         const comment = Comment.findByIdAndDelete(req.params.id)
         if (!comment) return res.status(401).json({error: "Comment not found"})
+        res.json({message: "Comment Deleted Succesfully"})
 
     } catch (err) {
         res.status(500).json({error: err.message})
     }
 })
 
-export default router
+export default router3

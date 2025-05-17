@@ -3,10 +3,21 @@ import mongoose from "mongoose";
 import User from "./models/User.js";
 import jwt from "jsonwebtoken";
 import authRoutes from './routes/auth.js'
+import userRoutes from './routes/user.js'
+import eventRoutes from './routes/event.js'
+import commentRoutes from './routes/comment.js'
+import categoryRoutes from './routes/category.js'
+import cors from "cors";
+
 
 const app = express()
+app.use(cors());
 app.use(express.json())
 app.use('/api', authRoutes)
+app.use('/api', userRoutes)
+app.use('/api', eventRoutes)
+app.use('/api', commentRoutes)
+app.use('/api', categoryRoutes)
 
 
 mongoose.connect('mongodb://localhost:27017/eventsdb', {
